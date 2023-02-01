@@ -45,7 +45,8 @@ extension OpenAI {
     }
     
     /// Send edit request to the OpenAI API
-    /// - Parameters:
+    /// 
+    /// Parameters:
     ///   - instruction: The Instruction For Example: "Fix the spelling mistake"
     ///   - model: The Model to use, the only support model is `text-davinci-edit-001`
     ///   - input: The Input For Example "I hav a dog."
@@ -105,11 +106,12 @@ extension OpenAI {
 
 extension OpenAI {
     /// Send completion to the OpenAI API
-    /// - Parameters:
+    /// 
+    /// Parameters:
     ///   - prompt: The Text Prompt
     ///   - model: The AI Model to Use. Set to `OpenAIModelType.gpt3(.davinci)` by default which is the most capable model
     ///   - maxTokens: The limit character for the returned response, defaults to 16 as per the API
-    /// - Returns: Returns an OpenAI Data Model
+    ///   - Returns: Returns an OpenAI Data Model
     @available(swift 5.5)
     @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
     public func sendCompletion(with prompt: String, model: OpenAIModelType = .gpt3(.davinci), maxTokens: Int = 16) async throws -> OpenAIModel {
@@ -121,7 +123,8 @@ extension OpenAI {
     }
     
     /// Send edit request to the OpenAI API
-    /// - Parameters:
+    /// 
+    /// Parameters:
     ///   - instruction: For Example: "Fix the spelling mistake"
     ///   - model: The Model to use, the only support model is `text-davinci-edit-001`
     ///   - input: The Input For Example "My nam is Ty"
