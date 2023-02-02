@@ -47,7 +47,7 @@ do {
 }
 ```
 
-## Licence  📃
+## License  📃
 
 The MIT License (MIT)
 
