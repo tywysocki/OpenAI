@@ -29,14 +29,14 @@ openAPI.sendCompletion(with: "Example") { result in // Result<OpenAIModel, OpenA
 ```
 The API will return an `OpenAPI` object that contains the corresponding text items.
 
-Different models can be specified and used for completions. The `sendCompletion` method defaults to the `text-davinci-003` model
+Different models can be specified and used for completions. The `sendCompletion` method defaults to the `text-davinci-003` model.
 
 ```swift
 openAPI.sendCompletion(with: "Example", model: .gpt3(.ada)) { result in // Result<OpenAIModel, OpenAIError>
     // switch on result to get the response or error
 }
 ...
-
+```
 Use Swift’s async/await syntax to fetch completions.
 
 ```swift
