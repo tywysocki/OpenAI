@@ -18,7 +18,7 @@ Import the module into your application.
 
 Set your API token after creating one [here](https://beta.openai.com/account/api-keys).
 
-`let openAPI = OpenAISwift(authToken: "YOUR TOKEN HERE")`
+`let openAPI = OpenAISwift(authToken:"TOKEN")`
 
 Create a call to the completions API to pass in a text prompt.
 
