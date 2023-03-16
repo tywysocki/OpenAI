@@ -44,8 +44,7 @@ extension OpenAI {
         }
     }
     
-    /// Send edit request to the OpenAI API
-    /// 
+    /// Send edit request to the OpenAI API.
     /// Parameters:
     ///   - instruction: The Instruction For Example: "Fix the spelling mistake"
     ///   - model: The Model to use, the only support model is `text-davinci-edit-001`
@@ -71,6 +70,33 @@ extension OpenAI {
         }
     }
     
+    /// Send a Chat request to the OpenAI API
+    /// - Parameters:
+    ///   - messages: Array of `ChatMessages`
+    ///   - model: The Model to use, the only support model is `gpt-3.5-turbo`
+    ///   - maxTokens: used in OpenAI's text-generating API to specify the maximum number of tokens (words) that should be generated in response to a prompt. This parameter is used to prevent the model from generating excessively long or rambling responses that may not be relevant to the prompt. The actual length of the response may be shorter than the `maxTokens` value if the model determines that it has reached a natural stopping point in the generation process.
+    ///   - temperature: a value that determines the level of creativity and diversity in the output of the API. Temperature values closer to 0 will generate more predictable and conservative output, while higher temperature values will generate more original and surprising output. Essentially, the temperature value controls the randomness or "playfulness" of the generated text. It is measured in units of degrees Celsius and typically ranges from 0.1 to 1.0, with higher values producing more unexpected and diverse output.
+    ///   - completionHandler: Returns an OpenAI Data Model
+    public func sendChat(with messages: [ChatMessage], model: OpenAIModelType = .chat(.chatgpt), maxTokens: Int? = nil, temperature: Double = 1.0, completionHandler: @escaping (Result<OpenAI<MessageResult>, OpenAIError>) -> Void) {
+        let endpoint = Endpoint.chat
+        let body = ChatConversation(messages: messages, model: model.modelName, maxTokens: maxTokens, temperature: temperature)
+        let request = prepareRequest(endpoint, body: body)
+        
+        makeRequest(request: request) { result in
+            switch result {
+                case .success(let success):
+                    do {
+                        let res = try JSONDecoder().decode(OpenAI<MessageResult>.self, from: success)
+                        completionHandler(.success(res))
+                    } catch {
+                        completionHandler(.failure(.decodingError(error: error)))
+                    }
+                case .failure(let failure):
+                    completionHandler(.failure(.genericError(error: failure)))
+            }
+        }
+    }
+    
     private func makeRequest(request: URLRequest, completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let session = URLSession.shared
         let task = session.dataTask(with: request) { (data, response, error) in
@@ -80,6 +106,7 @@ extension OpenAI {
                 completionHandler(.success(data))
             }
         }
+        
         task.resume()
     }
     
@@ -104,36 +131,51 @@ extension OpenAI {
     }
 }
 
-extension OpenAI {
-    /// Send completion to the OpenAI API
-    /// 
-    /// Parameters:
+extension OpenAISwift {
+    /// Send a Completion to the OpenAI API
+    /// - Parameters:
     ///   - prompt: The Text Prompt
     ///   - model: The AI Model to Use. Set to `OpenAIModelType.gpt3(.davinci)` by default which is the most capable model
     ///   - maxTokens: The limit character for the returned response, defaults to 16 as per the API
-    ///   - Returns: Returns an OpenAI Data Model
+    ///   - temperature: Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. Defaults to 1
+    /// - Returns: Returns an OpenAI Data Model
     @available(swift 5.5)
     @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-    public func sendCompletion(with prompt: String, model: OpenAIModelType = .gpt3(.davinci), maxTokens: Int = 16) async throws -> OpenAIModel {
+    public func sendCompletion(with prompt: String, model: OpenAIModelType = .gpt3(.davinci), maxTokens: Int = 16, temperature: Double = 1) async throws -> OpenAI<TextResult> {
         return try await withCheckedThrowingContinuation { continuation in
-            sendCompletion(with: prompt, model: model, maxTokens: maxTokens) { result in
+            sendCompletion(with: prompt, model: model, maxTokens: maxTokens, temperature: temperature) { result in
                 continuation.resume(with: result)
             }
         }
     }
     
-    /// Send edit request to the OpenAI API
-    /// 
-    /// Parameters:
-    ///   - instruction: For Example: "Fix the spelling mistake"
+    /// Send a Edit request to the OpenAI API
+    /// - Parameters:
+    ///   - instruction: The Instruction For Example: "Fix the spelling mistake"
     ///   - model: The Model to use, the only support model is `text-davinci-edit-001`
-    ///   - input: The Input For Example "My nam is Ty"
-    ///   - completionHandler: Returns an OpenAI Data Model
+    ///   - input: The Input For Example "My nam is Adam"
+    /// - Returns: Returns an OpenAI Data Model
     @available(swift 5.5)
     @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-    public func sendEdits(with instruction: String, model: OpenAIModelType = .feature(.davinci), input: String = "", completionHandler: @escaping (Result<OpenAIModel, OpenAIError>) -> Void) async throws -> OpenAIModel {
+    public func sendEdits(with instruction: String, model: OpenAIModelType = .feature(.davinci), input: String = "") async throws -> OpenAI<TextResult> {
         return try await withCheckedThrowingContinuation { continuation in
             sendEdits(with: instruction, model: model, input: input) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
+    /// Send a Chat request to the OpenAI API
+    /// - Parameters:
+    ///   - messages: Array of `ChatMessages`
+    ///   - model: The Model to use, the only support model is `gpt-3.5-turbo`
+    ///   - maxTokens: used in OpenAI's text-generating API to specify the maximum number of tokens (words) that should be generated in response to a prompt. This parameter is used to prevent the model from generating excessively long or rambling responses that may not be relevant to the prompt. The actual length of the response may be shorter than the `maxTokens` value if the model determines that it has reached a natural stopping point in the generation process.
+    ///   - temperature: a value that determines the level of creativity and diversity in the output of the API. Temperature values closer to 0 will generate more predictable and conservative output, while higher temperature values will generate more original and surprising output. Essentially, the temperature value controls the randomness or "playfulness" of the generated text. It is measured in units of degrees Celsius and typically ranges from 0.1 to 1.0, with higher values producing more unexpected and diverse output.
+    @available(swift 5.5)
+    @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+    public func sendChat(with messages: [ChatMessage], model: OpenAIModelType = .chat(.chatgpt), maxTokens: Int? = nil, temperature: Double = 1.0) async throws -> OpenAI<MessageResult> {
+        return try await withCheckedThrowingContinuation { continuation in
+            sendChat(with: messages, model: model, maxTokens: maxTokens, temperature: temperature) { result in
                 continuation.resume(with: result)
             }
         }
