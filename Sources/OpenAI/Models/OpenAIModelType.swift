@@ -1,5 +1,5 @@
 //
-//  File 2.swift
+//  OpenAIModelType.swift
 //  
 //
 //  Created by Tyler Wysocki on 2/1/23.
@@ -8,22 +8,26 @@
 
 import Foundation
 
-/// Model used to generate output
+/// Model type used to generate output
 public enum OpenAIModelType {
-    /// ``GPT3`` Model Group
+    /// ``GPT3`` Models
     case gpt3(GPT3)
     
-    /// ``Codex`` Model Group
+    /// ``Codex`` Models
     case codex(Codex)
     
-    /// ``Feature`` Model Group
+    /// ``Feature`` Models
     case feature(Feature)
+    
+    /// ``Chat``Family of Models
+    case chat(Chat)
     
     public var modelName: String {
         switch self {
         case .gpt3(let model): return model.rawValue
         case .codex(let model): return model.rawValue
         case .feature(let model): return model.rawValue
+        case .chat(let model): return model.rawValue
         }
     }
     
@@ -61,9 +65,8 @@ public enum OpenAIModelType {
         case ada = "text-ada-001"
     }
     
-    /// - Set of models that understands code
-    /// - generates code,
-    /// - translates natural language to code
+    /// - Set of models that understands and generates code.
+    /// - They can also translate natural language to code.
     ///
     /// [Codex Models OpenAI API Docs](https://beta.openai.com/docs/models/codex)
     ///
@@ -85,11 +88,24 @@ public enum OpenAIModelType {
     
     /// Feature-specific models.
     ///
+    ///  For example, using the Edits endpoint requires a specific data model
     ///
     ///  Read the [API Docs](https://beta.openai.com/docs/guides/completion/editing-text)
     public enum Feature: String {
         
         /// > Model: text-davinci-edit-001
         case davinci = "text-davinci-edit-001"
+    }
+    /// Models for the new chat completions
+    ///  You can read the [API Docs](https://platform.openai.com/docs/api-reference/chat/create)
+    public enum Chat: String {
+        
+        /// Most capable GPT-3.5 model, optimized for chat at 10% of the cost of text-davinci-003.
+        /// > Model Name: gpt-3.5-turbo
+        case chatgpt = "gpt-3.5-turbo"
+        
+        /// Snapshot of gpt-3.5-turbo from March 1st 2023.
+        /// > Model Name: gpt-3.5-turbo-0301
+        case chatgpt0301 = "gpt-3.5-turbo-0301"
     }
 }
