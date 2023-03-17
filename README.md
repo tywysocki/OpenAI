@@ -6,7 +6,7 @@ This library will allow you to access the OpenAI HTTP API's. Read the [full API 
 
 Use Swift Package Manager to integrate the library by adding the following dependency in your Package.swift file:
 
-`.Package(url: "https://github.com/TyWysocki/OpenAI.git", majorVersion: 1)`
+`.Package(url: "https://github.com/tywysocki/OpenAI.git", majorVersion: 1)`
 
 ## Usage 👨‍💻
 
