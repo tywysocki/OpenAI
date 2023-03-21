@@ -1,10 +1,10 @@
 # OpenAI API Client Library (Swift)  
 
-This library will allow you to access the OpenAI HTTP API's. Read the [full API docs](https://beta.openai.com/docs) for additional information.
+This library will allow you to access the OpenAI HTTP API's. You can read the [full API docs](https://beta.openai.com/docs) for additional information.
 
 ## Installing OpenAI  💻
 
-Use Swift Package Manager to integrate the library by adding the following dependency in your Package.swift file:
+Add the following dependency in your Package.swift file (use Swift Package Manager):
 
 `.Package(url:"https://github.com/tywysocki/OpenAI.git", majorVersion: 1)`
 
@@ -16,12 +16,12 @@ Import the module into your application.
 
 Set your API token after creating one [here](https://beta.openai.com/account/api-keys).
 
-`let openAPI = OpenAISwift(authToken: "TOKEN")`
+`let openAPI = OpenAI(authToken:"TOKEN")`
 
 Create a call to the completions API, passing in a text prompt.
 
 ```swift
-openAI.sendCompletion(with: "Hello how are you", maxTokens: 250) { result in // Result<OpenAI, OpenAIError>
+openAI.sendCompletion(with: "Hello, how are you today?", maxTokens: 100) { result in // Result<OpenAI, OpenAIError>
     switch result {
     case .success(let success):
         print(success.choices.first?.text ?? "")
@@ -32,16 +32,16 @@ openAI.sendCompletion(with: "Hello how are you", maxTokens: 250) { result in // 
 ```
 The API will return an `OpenAPI` object that contains the corresponding text items.
 
-You can specify different models to use for the completions. The `sendCompletion` method defaults to the `text-davinci-003` model.
+You can specify different models to use for the completions (The `sendCompletion` method defaults to the `text-davinci-003` model).
 
 ```swift
 openAI.sendCompletion(with: "A random emoji", model: .gpt3(.ada)) { result in // Result<OpenAI, OpenAIError>
     // switch on result to get the response or error
 }
 ```
-See [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift) for a list of supported models. See the [OpenAI API Documentation](https://beta.openai.com/docs/models) for more information on the models.
+See [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift) for a list of supported models and the [OpenAI API Documentation](https://beta.openai.com/docs/models) for more information on the models.
 
-OpenAI supports Swift concurrency so you can use Swift’s async/await syntax to fetch completions.
+OpenAI supports Swift concurrency, you can use Swift’s async/await syntax to fetch completions.
 
 ```swift
 do {
@@ -51,16 +51,16 @@ do {
 }
 ```
 
-The latest `gpt-3.5-turbo` model is available as well : 
+The latest `gpt-3.5-turbo` model is also available: 
 
 ```swift
 func chat() async {
     do {
         let chat: [ChatMessage] = [
             ChatMessage(role: .system, content: "You are a helpful assistant."),
-            ChatMessage(role: .user, content: "Who won the world series in 2020?"),
-            ChatMessage(role: .assistant, content: "The Los Angeles Dodgers won the World Series in 2020."),
-            ChatMessage(role: .user, content: "Where was it played?")
+            ChatMessage(role: .user, content: "What teams played in the 30th Superbowl?"),
+            ChatMessage(role: .assistant, content: "The Dallas Cowboys played the Pittsburgh Steelers in the 30th Superbowl."),
+            ChatMessage(role: .user, content: "Who won?")
         ]
                     
         let result = try await openAI.sendChat(with: chat)
