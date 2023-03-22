@@ -74,8 +74,8 @@ extension OpenAI {
     /// - Parameters:
     ///   - messages: Array of `ChatMessages`
     ///   - model: The only support model is `gpt-3.5-turbo`
-    ///   - maxTokens: Set word limit for the response
-    ///   - temperature: Measure of randomness in the response on a scale of 0 to 1, 1 being most random.
+    ///   - maxTokens: Sets the maximum number of words allowed in the response.
+    ///   - temperature: Adjusts the randomness of the output, which increases from 0 to 1
     ///   - completionHandler: Returns an OpenAI Data Model
     public func sendChat(with messages: [ChatMessage], model: OpenAIModelType = .chat(.chatgpt), maxTokens: Int? = nil, temperature: Double = 1.0, completionHandler: @escaping (Result<OpenAI<MessageResult>, OpenAIError>) -> Void) {
         let endpoint = Endpoint.chat
@@ -136,8 +136,8 @@ extension OpenAI {
     /// - Parameters:
     ///   - prompt: Text Prompt
     ///   - model: Defaults to `OpenAIModelType.gpt3(.davinci)` i.e. the most capable model
-    ///   - maxTokens: Character limit for API's response
-    ///   - temperature: Adjusts the randomness of the response on a scale from 0 - 1, 1 being most random
+    ///   - maxTokens: Sets the maximum number of words allowed in the response.
+    ///   - temperature: Adjusts the randomness of the output, which increases from 0 to 1
     /// - Returns: Returns an OpenAI Data Model
     @available(swift 5.5)
     @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
@@ -169,8 +169,8 @@ extension OpenAI {
     /// - Parameters:
     ///   - messages: Array of `ChatMessages`
     ///   - model: The only support model is `gpt-3.5-turbo`
-    ///   - maxTokens: Sets the max number of words in response
-    ///   - controls the randomness of the output.
+    ///   - maxTokens: Sets the maximum number of words allowed in the response.
+    ///   - temperature: AAdjusts the randomness of the output, which increases from 0 to 1
     @available(swift 5.5)
     @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
     public func sendChat(with messages: [ChatMessage], model: OpenAIModelType = .chat(.chatgpt), maxTokens: Int? = nil, temperature: Double = 1.0) async throws -> OpenAI<MessageResult> {
