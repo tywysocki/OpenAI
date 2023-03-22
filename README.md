@@ -39,7 +39,7 @@ openAI.sendCompletion(with: "A random emoji", model: .gpt3(.ada)) { result in //
     // switch on result to get the response or error
 }
 ```
-See [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift) for a list of supported models and the [OpenAI API Documentation](https://beta.openai.com/docs/models) for more information on the models.
+You can look at [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift) for a list of supported models or the [OpenAI API Documentation](https://beta.openai.com/docs/models) for full information on the models.
 
 OpenAI supports Swift concurrency, you can use Swift’s async/await syntax to fetch completions.
 
