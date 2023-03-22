@@ -2,7 +2,7 @@
 
 This library will allow you to access the OpenAI HTTP APIs. You can read the [full API docs](https://beta.openai.com/docs) for additional information.
 
-## Installing OpenAI  💻
+## Install OpenAI  💻
 
 Add the following dependency in your Package.swift file (use Swift Package Manager):
 
