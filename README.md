@@ -32,7 +32,7 @@ openAI.sendCompletion(with: "Hello, how are you today?", maxTokens: 100) { resul
 ```
 The API will return an `OpenAPI` object that contains the corresponding text items.
 
-You can specify different models to use for the completions (The `sendCompletion` method defaults to the `text-davinci-003` model).
+You can also specify different models to use for the completions. The `sendCompletion` method defaults to the `text-davinci-003` model.
 
 ```swift
 openAI.sendCompletion(with: "A random emoji", model: .gpt3(.ada)) { result in // Result<OpenAI, OpenAIError>
