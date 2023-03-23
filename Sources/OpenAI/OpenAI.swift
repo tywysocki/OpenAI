@@ -38,7 +38,7 @@ extension OpenAI {
     ///   - model: Defaults to `OpenAIModelType.gpt3(.davinci)` 
     ///   - maxTokens: Set word limit for the response
     ///   - completionHandler: Returns an OpenAI Data Model
-    public func sendCompletion(with prompt: String, model: OpenAIModelType = .gpt3(.davinci), maxTokens: Int = 16, temperature: Double = 1, completionHandler: @escaping (Result<OpenAIModel, OpenAIError>) -> Void) {
+    public func sendCompletion(with prompt: String, model: OpenAIModelType = .gpt3(.davinci), maxTokens: Int = 16, temperature: Double = 1, completionHandler: @escaping (Result<OpenAIModel<TextResult>, OpenAIError>) -> Void) {
         let endpoint = Endpoint.completions
         let body = Command(prompt: prompt, model: model.modelName, maxTokens: maxTokens, temperature: temperature)
         let request = prepareRequest(endpoint, body: body)
