@@ -58,8 +58,8 @@ func chat() async {
     do {
         let chat: [ChatMessage] = [
             ChatMessage(role: .system, content: "You are a helpful assistant."),
-            ChatMessage(role: .user, content: "What teams played in the 30th Superbowl?"),
-            ChatMessage(role: .assistant, content: "The Dallas Cowboys played the Pittsburgh Steelers in the 30th Superbowl."),
+            ChatMessage(role: .user, content: "Who played in the 30th Superbowl?"),
+            ChatMessage(role: .assistant, content: "The 30th Super Bowl was played on January 28, 1996, between the Dallas Cowboys and the Pittsburgh Steelers."),
             ChatMessage(role: .user, content: "Who won?")
         ]
                     
