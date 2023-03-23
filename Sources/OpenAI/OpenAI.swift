@@ -9,7 +9,7 @@ public enum OpenAIError: Error {
     case decodingError(error: Error)
 }
 
-public class OpenAIModel {
+public class OpenAI {
     fileprivate(set) var token: String?
     fileprivate let config: Config
     
@@ -31,7 +31,7 @@ public class OpenAIModel {
     }
 }
 
-extension OpenAIModel {
+extension OpenAI {
     /// Send completion to the OpenAI API
     /// - Parameters:
     ///   - prompt: Text Prompt
