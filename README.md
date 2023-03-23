@@ -1,6 +1,6 @@
 # OpenAI API Client Library (Swift)
 
-This library will enable you to access the OpenAI HTTP API's. The full API documentation can be found [here.](https://beta.openai.com/docs)
+This library will enable you to access the OpenAI HTTP APIs. The full API documentation can be found [here.](https://beta.openai.com/docs)
 
 ## Library Installation 💻
 
