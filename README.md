@@ -53,9 +53,11 @@ do {
 
 You can look at [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift) for a list of supported models or [OpenAI API Documentation](https://beta.openai.com/docs/models) for additional information on the models.
 
-### [Chat with ChatGPT](https://platform.openai.com/docs/api-reference/chat)
+### [Chat](https://platform.openai.com/docs/api-reference/chat)
 
-Get responses to chat conversations through ChatGPT (aka GPT-3.5) and GPT-4 (beta).
+Get responses to chat conversations through ChatGPT (aka GPT-3.5) & GPT-4 (beta).
+
+Chat models take a series of messages as input, and return a model-generated message as output. An example API call looks as follows:
 
 ```swift
 do {
@@ -100,7 +102,7 @@ do {
 
 ### [Image Generation with DALL·E](https://platform.openai.com/docs/api-reference/images/create)
 
-This model generates an image based on a prompt.
+The image generations endpoint allows you to create an original image given a text prompt.
 
 ```swift
 openAI.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, size: .size1024) { result in // Result<OpenAIModel, OpenAIError>
@@ -115,7 +117,7 @@ openAI.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, siz
 
 ### [Edits](https://platform.openai.com/docs/api-reference/edits) 
 
-Edits text based on instruction and a prompt.
+The edits endpoint can be used to edit text based on the prompt and an instruction for how to modify it.
 
 ```swift
 do {
@@ -132,7 +134,7 @@ do {
 
 ### [Moderation](https://platform.openai.com/docs/api-reference/moderations) 👮‍♂️
 
-Classifies text for moderation purposes.
+The moderation endpoint is a tool you can use to check whether content complies with OpenAI's usage policies.
 
 ```swift
 do {
