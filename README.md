@@ -117,7 +117,7 @@ openAI.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, siz
 
 ### [Edits](https://platform.openai.com/docs/api-reference/edits) 
 
-The edits endpoint can be used to edit text based on the prompt and an instruction for how to modify it.
+The edits endpoint can be used to edit text based on a prompt and an instruction for how to modify it.
 
 ```swift
 do {
