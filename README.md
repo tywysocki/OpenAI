@@ -1,28 +1,34 @@
 # OpenAI API Client Library (Swift)
 
-This library will enable you to access the OpenAI HTTP APIs. The full API documentation can be found [here.](https://beta.openai.com/docs)
+This library will enable you to access the OpenAI HTTP APIs. You can read the official [OpenAI API Docs](https://beta.openai.com/docs) for additional information.
 
-## Library Installation 💻
+## Installation 💻
 
-Use Swift Package Manager to integrate the library by adding the following dependency in the `Package.swift` file:
+First, use Swift Package Manager to add the following dependency in your package.swift file (Recommended):
 
-`.Package(url: "https://github.com/tywysocki/OpenAI.git", majorVersion: 1)`
+```swift
+.Package(url: "https://github.com/tywysocki/OpenAI.git", from: "1.0.0")
+```
 
-## Usage 👨‍💻
+Or add the dependency directly in Xcode:
 
-First, import the framework to your application:
+`File -> Add Packages -> Search "github.com/tywysocki/OpenAI"`
 
-`import OpenAI`
+Next, [create an OpenAI API key](https://platform.openai.com/account/api-keys) and add it to your configuration:
 
-Next, [generate an API key](https://platform.openai.com/account/api-keys) and add it to your configuration:
+```swift
+let openAPI = OpenAI(authToken:"TOKEN")
+```
 
-`let openAI = OpenAI(authToken: "TOKEN")`
+⚠️ OpenAI urges developers of client-side applications to proxy requests through a separate backend service to keep their API key safe. API keys can access and manipulate customer billing, usage, and organizational data, so it's a significant risk to [expose](https://nshipster.com/secrets/) them.
 
-This framework supports Swift concurrency; you can use Swift’s async/await syntax to fetch completions.
+## Usage 👩‍💻
+
+This framework supports Swift concurrency, so you can use Swift’s async/await syntax to fetch completions.
 
 ### [Completions](https://platform.openai.com/docs/api-reference/completions)
 
-Predict completions for input text. This returns an `OpenAI` object containing the completions:
+Predict completions for input text.
 
 ```swift
 openAI.sendCompletion(with: "Hello") { result in // Result<OpenAIModel, OpenAIError>
@@ -34,8 +40,9 @@ openAI.sendCompletion(with: "Hello") { result in // Result<OpenAIModel, OpenAIEr
     }
 }
 ```
+This returns an object containing the completions.
 
-There are other API parameters that are also supported:
+Other supported API parameters:
 
 ```swift
 do {
@@ -51,13 +58,11 @@ do {
 }
 ```
 
-You can look at [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift) for a list of supported models or [OpenAI API Documentation](https://beta.openai.com/docs/models) for additional information on the models.
+For a list of supported models see [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift) and for additional information on the models visit the official [OpenAI API Docs](https://beta.openai.com/docs/models).
 
 ### [Chat](https://platform.openai.com/docs/api-reference/chat)
 
-Get responses to chat conversations through ChatGPT (aka GPT-3.5) & GPT-4 (beta).
-
-Chat models take a series of messages as input, and return a model-generated message as output. An example API call looks as follows:
+Get responses to chat conversations through ChatGPT (aka GPT-3.5) & GPT-4 (beta). Chat models take a series of messages as input, and return a model-generated message as output. An example API call looks as follows:
 
 ```swift
 do {
@@ -102,7 +107,7 @@ do {
 
 ### [Image Generation with DALL·E](https://platform.openai.com/docs/api-reference/images/create)
 
-The image generations endpoint allows you to create an original image given a text prompt.
+The image generations endpoint allows you to create an original image given a text prompt. Provide more deatil in the prompt for better results
 
 ```swift
 openAI.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, size: .size1024) { result in // Result<OpenAIModel, OpenAIError>
