@@ -1,37 +1,39 @@
-# OpenAI API Client Library (Swift)
+# OpenAI API Client Library (Swift) 
 
-This library will enable you to access the OpenAI HTTP APIs. You can read the official [OpenAI API Docs](https://beta.openai.com/docs) for additional information.
+A Swift library designed to help you interact with the OpenAI HTTP APIs. Detailed information on the API can be found here: https://beta.openai.com/docs
 
 ## Installation 💻
 
-First, use Swift Package Manager to add the following dependency in your package.swift file (Recommended):
+To integrate the library, Swift Package Manager is your tool of choice. Add the following dependency to your Package.swift file or add it directly within Xcode.
 
-```swift
+`
 .Package(url: "https://github.com/tywysocki/OpenAI.git", from: "1.0.0")
-```
-
-Or add the dependency directly in Xcode:
-
-`File -> Add Packages -> Search "github.com/tywysocki/OpenAI"`
-
-Next, [create an OpenAI API key](https://platform.openai.com/account/api-keys) and add it to your configuration:
-
-```swift
-let openAPI = OpenAI(authToken:"TOKEN")
-```
-
-⚠️ OpenAI urges developers of client-side applications to proxy requests through a separate backend service to keep their API key safe. API keys can access and manipulate customer billing, usage, and organizational data, so it's a significant risk to [expose](https://nshipster.com/secrets/) them.
+`
 
 ## Usage 👩‍💻
 
-This framework supports Swift concurrency, so you can use Swift’s async/await syntax to fetch completions.
-
-### [Completions](https://platform.openai.com/docs/api-reference/completions)
-
-Predict completions for input text.
+Import the framework:
 
 ```swift
-openAI.sendCompletion(with: "Hello") { result in // Result<OpenAIModel, OpenAIError>
+import OpenAI
+```
+
+Create an API key [here](https://platform.openai.com/account/api-keys), and include it in your configuration.
+
+```swift
+let openAI = OpenAI(authToken:"API_KEY")
+```
+
+With this framework, you can take advantage of Swift concurrency. The code snippets provided below demonstrate both async/await and completion handler implementations.
+
+### [Text Completion](https://platform.openai.com/docs/api-reference/completions)
+
+The completions endpoint offers a broad range of applications. It presents a straightforward yet robust interface to all the models. Given a text prompt, the model will produce a text completion that aims to correspond with the given context or pattern.
+
+Completion handler implementation:
+
+```swift
+openAI.sendCompletion(with: "How are you doing today") { result in // Result<OpenAIModel, OpenAIError>
     switch result {
     case .success(let success):
         print(success.choices.first?.text ?? "")
@@ -40,9 +42,10 @@ openAI.sendCompletion(with: "Hello") { result in // Result<OpenAIModel, OpenAIEr
     }
 }
 ```
-This returns an object containing the completions.
 
-Other supported API parameters:
+The completion handler implementation requires a string parameter (prompt), and a closure that will be called with a `Result` object that contains either an `OpenAIModel` object if the API call was successful, or an `OpenAIError` object if the call failed. If successful, the `choices` property of the `OpenAIModel` object contains an array of completion objects, each representing a possible text completion. The generated text is obtained by accessing the text property of the first completion object in the array. If the API call fails, the error message is retrieved from the localizedDescription property of the OpenAIError object and printed to the console.
+
+async/await implementation:
 
 ```swift
 do {
@@ -58,11 +61,17 @@ do {
 }
 ```
 
-For a list of supported models see [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift) and for additional information on the models visit the official [OpenAI API Docs](https://beta.openai.com/docs/models).
+The `async/await` implementation waits for the completion to be generated before continuing with the code execution. If the completion generation fails, the code will catch the error and handle it appropriately in the catch block. After the completion is generated, it will be stored in `result`, which can then be used in the code for further processing, such as displaying the generated name to the user.
 
-### [Chat](https://platform.openai.com/docs/api-reference/chat)
+Check out [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift) for a list of supported models. You can also visit the [OpenAI API Docs](https://beta.openai.com/docs/models) for additional information on the models.
 
-Get responses to chat conversations through ChatGPT (aka GPT-3.5) & GPT-4 (beta). Chat models take a series of messages as input, and return a model-generated message as output. An example API call looks as follows:
+### [Chat Completions](https://platform.openai.com/docs/api-reference/chat)
+
+By utilizing OpenAI's Chat API, you can access ChatGPT (aka GPT-3.5) and GPT-4 (currently in beta) to obtain responses for chat conversations. Chat models take a series of messages as input, and return a model-generated message as output.
+
+Although the chat format is designed to make multi-turn conversations easy, it’s just as useful for single-turn tasks without any conversations (such as those previously served by instruction following models like text-davinci-003).
+
+An example API call looks as follows:
 
 ```swift
 do {
@@ -80,7 +89,9 @@ do {
 }
 ```
 
-All API parameters are supported:
+The main input is the `chat` parameter. `chat` must be an array of `ChatMessage` objects, where each object has a `role` (either "system", "user", or "assistant") and content (the content of the message). Conversations are typically formatted with a system message first, which helps set the behavior of the assistant, and followed by alternating user and assistant messages.
+
+The `sendChat` method supports all API parameters, except streaming message content before it is completed:
 
 ```swift
 do {
@@ -97,7 +108,7 @@ do {
         maxTokens: nil,                 // optional `Int?`
         presencePenalty: nil,           // optional `Double?`
         frequencyPenalty: nil,          // optional `Double?`
-        logitBias: nil                 // optional `[Int: Double]?`
+        logitBias: nil                  // optional `[Int: Double]?`
     )
     // use result
 } catch {
