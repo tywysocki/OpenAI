@@ -1,6 +1,6 @@
 # OpenAI API Client Library (Swift) 
 
-A Swift library designed to help you interact with the OpenAI HTTP APIs. Detailed information on the API can be found here: https://beta.openai.com/docs
+A Swift library designed to help you interact with the OpenAI HTTP APIs. More information on the API can be found here: https://beta.openai.com/docs
 
 ## Installation 💻
 
@@ -12,7 +12,7 @@ To integrate the library, Swift Package Manager is your tool of choice. Add the 
 
 ## Usage 👩‍💻
 
-Import the framework:
+Import the library:
 
 ```swift
 import OpenAI
@@ -24,13 +24,13 @@ Create an API key [here](https://platform.openai.com/account/api-keys), and incl
 let openAI = OpenAI(authToken:"API_KEY")
 ```
 
-With this framework, you can take advantage of Swift concurrency. The code snippets provided below demonstrate both async/await and completion handler implementations.
+With this library, you can take advantage of Swift concurrency. The code snippets provided below demonstrate both async/await and completion handler implementations.
 
 ### [Text Completion](https://platform.openai.com/docs/api-reference/completions)
 
 The completions endpoint offers a broad range of applications. It presents a straightforward yet robust interface to all the models. Given a text prompt, the model will produce a text completion that aims to correspond with the given context or pattern.
 
-Completion handler implementation:
+#### Completion handler implementation:
 
 ```swift
 openAI.sendCompletion(with: "How are you doing today") { result in // Result<OpenAIModel, OpenAIError>
@@ -42,10 +42,11 @@ openAI.sendCompletion(with: "How are you doing today") { result in // Result<Ope
     }
 }
 ```
+To implement a completion handler, you need to provide a string parameter (the prompt) and a closure that will be called with a `Result` object. If the API call is successful, the `Result` object will contain an `OpenAIModel` object, which includes an array of completion objects. Each completion object represents a possible text completion, and the generated text can be accessed via the `text` property of the first "completion" object in the array.
 
-The completion handler implementation requires a string parameter (prompt), and a closure that will be called with a `Result` object that contains either an `OpenAIModel` object if the API call was successful, or an `OpenAIError` object if the call failed. If successful, the `choices` property of the `OpenAIModel` object contains an array of completion objects, each representing a possible text completion. The generated text is obtained by accessing the text property of the first completion object in the array. If the API call fails, the error message is retrieved from the localizedDescription property of the OpenAIError object and printed to the console.
+If the API call fails, the `Result` object will contain an `OpenAIError` object, which includes an error message retrieved from the `localizedDescription` property. This message should be printed to the console to help diagnose the issue.
 
-async/await implementation:
+#### async/await implementation:
 
 ```swift
 do {
@@ -63,13 +64,11 @@ do {
 
 The `async/await` implementation waits for the completion to be generated before continuing with the code execution. If the completion generation fails, the code will catch the error and handle it appropriately in the catch block. After the completion is generated, it will be stored in `result`, which can then be used in the code for further processing, such as displaying the generated name to the user.
 
-Check out [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift) for a list of supported models. You can also visit the [OpenAI API Docs](https://beta.openai.com/docs/models) for additional information on the models.
+For a list of supported models, check out [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift). You can also visit the [OpenAI API Docs](https://beta.openai.com/docs/models) for additional information on the models.
 
 ### [Chat Completions](https://platform.openai.com/docs/api-reference/chat)
 
 By utilizing OpenAI's Chat API, you can access ChatGPT (aka GPT-3.5) and GPT-4 (currently in beta) to obtain responses for chat conversations. Chat models take a series of messages as input, and return a model-generated message as output.
-
-Although the chat format is designed to make multi-turn conversations easy, it’s just as useful for single-turn tasks without any conversations (such as those previously served by instruction following models like text-davinci-003).
 
 An example API call looks as follows:
 
@@ -116,9 +115,9 @@ do {
 }
 ```
 
-### [Image Generation with DALL·E](https://platform.openai.com/docs/api-reference/images/create)
+### [Image Generation - DALL·E](https://platform.openai.com/docs/api-reference/images/create) 🌄
 
-The image generations endpoint allows you to create an original image given a text prompt. Provide more deatil in the prompt for better results
+The image generations endpoint allows you to create an original image given a text prompt. Provide more deatil in the prompt for better results.
 
 ```swift
 openAI.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, size: .size1024) { result in // Result<OpenAIModel, OpenAIError>
@@ -131,7 +130,7 @@ openAI.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, siz
 }
 ```
 
-### [Edits](https://platform.openai.com/docs/api-reference/edits) 
+### [Edits](https://platform.openai.com/docs/api-reference/edits) 👨🏻‍🔧
 
 The edits endpoint can be used to edit text based on a prompt and an instruction for how to modify it.
 
@@ -164,7 +163,7 @@ do {
 }
 ```
 
-## License  📃
+## License
 
 The MIT License (MIT)
 
