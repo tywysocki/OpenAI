@@ -69,7 +69,7 @@ You can specify the model to be used with the `model` parameter. For a list of s
 
 Use `client.sendChat` to access ChatGPT (aka GPT-3.5) and GPT-4 (currently in beta) to generate responses for chat conversations. Chat models take a series of messages as input, and return a model-generated message as output.
 
-####Example API call:
+#### Example API call:
 
 ```swift
 do {
