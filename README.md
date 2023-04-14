@@ -135,7 +135,7 @@ The edits endpoint can be used to edit text based on a prompt and an instruction
 
 ```swift
 do {
-    let result = try await openAI.sendEdits(
+    let result = try await client.sendEdits(
         with: "Fix the spelling mistake.",
         model: .feature(.davinci),               // optional `OpenAIModelType`
         input: "Me name is Ty"
@@ -152,7 +152,7 @@ The moderation endpoint is a tool you can use to check whether content complies 
 
 ```swift
 do {
-    let result = try await openAI.sendModeration(
+    let result = try await client.sendModeration(
         with: "Unmoderated text",
         model: .moderation(.latest)     // optional `OpenAIModelType`
     )
