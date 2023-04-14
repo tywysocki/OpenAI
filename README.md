@@ -131,7 +131,7 @@ client.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, siz
 
 ### [Edits](https://platform.openai.com/docs/api-reference/edits) ✍️
 
-The edits endpoint can be used to edit text based on a prompt and an instruction for how to modify it.
+Use `client.sendEdits` to edit text based on a prompt and an instruction for how to modify it.
 
 ```swift
 do {
@@ -148,7 +148,7 @@ do {
 
 ### [Moderation](https://platform.openai.com/docs/api-reference/moderations) 👮‍♂️
 
-The moderation endpoint is a tool you can use to check whether content complies with OpenAI's usage policies.
+Use `client.sendModeration` to check whether content complies with OpenAI's usage policies.
 
 ```swift
 do {
