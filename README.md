@@ -89,7 +89,7 @@ do {
 
 Each `ChatMessage` object in `chat` has a `role` (either "system", "user", or "assistant") and `content` (the content of the message). Conversations are typically formatted with a system message first (helps set the behavior of the assistant) and followed by alternating user and assistant messages.
 
-####All API parameters are supported, except streaming message content before it is completed:
+#### All API parameters are supported, except streaming message content before it is completed:
 
 ```swift
 do {
