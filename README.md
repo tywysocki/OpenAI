@@ -42,9 +42,7 @@ openAI.sendCompletion(with: "How are you doing today") { result in // Result<Ope
     }
 }
 ```
-To implement a completion handler, you need to provide a string parameter (the prompt) and a closure that will be called with a `Result` object. If the API call is successful, the `Result` object will contain an `OpenAIModel` object, which includes an array of completion objects. Each completion object represents a possible text completion, and the generated text can be accessed via the `text` property of the first "completion" object in the array.
-
-If the API call fails, the `Result` object will contain an `OpenAIError` object, which includes an error message retrieved from the `localizedDescription` property. This message should be printed to the console to help diagnose the issue.
+To implement a completion handler, you need to provide a string parameter (the prompt) and a closure that will be called with a `Result` object. If the API call is successful, the `Result` object will contain an `OpenAIModel` object. If the API call fails, the `Result` object will contain an `OpenAIError` object, which includes an error message retrieved from the `localizedDescription` property.
 
 #### async/await implementation:
 
@@ -64,7 +62,7 @@ do {
 
 The `async/await` implementation waits for the completion to be generated before continuing with the code execution. If the completion generation fails, the code will catch the error and handle it appropriately in the catch block. After the completion is generated, it will be stored in `result`, which can then be used in the code for further processing, such as displaying the generated name to the user.
 
-For a list of supported models, check out [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift). You can also visit the [OpenAI API Docs](https://beta.openai.com/docs/models) for additional information on the models.
+For a list of supported models, visit [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift). The [OpenAI API Docs](https://beta.openai.com/docs/models) have additional information on the models.
 
 ### [Chat Completions](https://platform.openai.com/docs/api-reference/chat)
 
