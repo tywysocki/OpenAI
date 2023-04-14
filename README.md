@@ -1,4 +1,4 @@
-# OpenAI API - Swift Client Library
+# Swift Client Library - OpenAI API
 
 A Swift client library designed to help you interact with the OpenAI HTTP APIs. More information on the API can be found here: https://beta.openai.com/docs
 
