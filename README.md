@@ -1,6 +1,6 @@
-# OpenAI API Client Library (Swift) 
+# OpenAI API - Swift Client Library
 
-A Swift library designed to help you interact with the OpenAI HTTP APIs. More information on the API can be found here: https://beta.openai.com/docs
+A Swift client library designed to help you interact with the OpenAI HTTP APIs. More information on the API can be found here: https://beta.openai.com/docs
 
 ## Installation 💻
 
@@ -21,19 +21,20 @@ import OpenAI
 Create an API key [here](https://platform.openai.com/account/api-keys), and include it in your configuration.
 
 ```swift
-let openAI = OpenAI(authToken:"API_KEY")
+let client = OpenAI(authToken:"API_KEY")
 ```
 
 With this library, you can take advantage of Swift concurrency. The code snippets provided below demonstrate both async/await and completion handler implementations.
 
-### [Text Completion](https://platform.openai.com/docs/api-reference/completions)
 
-The completions endpoint offers a broad range of applications. It presents a straightforward yet robust interface to all the models. Given a text prompt, the model will produce a text completion that aims to correspond with the given context or pattern.
+### [Text Completion](https://platform.openai.com/docs/api-reference/completions) 💬
+
+Use `client.sendCompletion` to generate a text completion that aims to correspond with the given context or pattern in the prompt.
 
 #### Completion handler implementation:
 
 ```swift
-openAI.sendCompletion(with: "How are you doing today") { result in // Result<OpenAIModel, OpenAIError>
+client.sendCompletion(with: "How are you doing today") { result in // Result<OpenAIModel, OpenAIError>
     switch result {
     case .success(let success):
         print(success.choices.first?.text ?? "")
@@ -42,13 +43,13 @@ openAI.sendCompletion(with: "How are you doing today") { result in // Result<Ope
     }
 }
 ```
-To implement a completion handler, you need to provide a string parameter (the prompt) and a closure that will be called with a `Result` object. If the API call is successful, the `Result` object will contain an `OpenAIModel` object. If the API call fails, the `Result` object will contain an `OpenAIError` object, which includes an error message retrieved from the `localizedDescription` property.
+To implement the completion handler, you need to provide a string parameter (the prompt) and a closure that will be called with a `Result` object. If the API call is successful, an `OpenAIModel` object will be returned. If the API call fails, an `OpenAIError` object will be returned.
 
 #### async/await implementation:
 
 ```swift
 do {
-    let result = try await openAI.sendCompletion(
+    let result = try await client.sendCompletion(
         with: "Got any creative names for my new dog?",
         model: .gpt3(.davinci), // optional `OpenAIModelType`
         maxTokens: 16,          // optional `Int?`
@@ -60,15 +61,15 @@ do {
 }
 ```
 
-The `async/await` implementation waits for the completion to be generated before continuing with the code execution. If the completion generation fails, the code will catch the error and handle it appropriately in the catch block. After the completion is generated, it will be stored in `result`, which can then be used in the code for further processing, such as displaying the generated name to the user.
+The `async/await` implementation waits for the completion to be generated before continuing with the code execution. After the completion is generated, it will be stored in `result`, which can then be used in the code for further processing, such as displaying the generated name to the user. If the completion generation fails, the code will catch the error and handle it appropriately in the catch block.
 
-For a list of supported models, visit [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift). The [OpenAI API Docs](https://beta.openai.com/docs/models) have additional information on the models.
+You can specify the model to be used with the `model` parameter. For a list of supported models, see [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift). The [OpenAI API Docs](https://beta.openai.com/docs/models) has addtional information on the models.
 
-### [Chat Completions](https://platform.openai.com/docs/api-reference/chat)
+### [Chat Completions](https://platform.openai.com/docs/api-reference/chat) 🤖
 
-By utilizing OpenAI's Chat API, you can access ChatGPT (aka GPT-3.5) and GPT-4 (currently in beta) to obtain responses for chat conversations. Chat models take a series of messages as input, and return a model-generated message as output.
+Use `client.sendChat` to access ChatGPT (aka GPT-3.5) and GPT-4 (currently in beta) to generate responses for chat conversations. Chat models take a series of messages as input, and return a model-generated message as output.
 
-An example API call looks as follows:
+####Example API call:
 
 ```swift
 do {
@@ -79,22 +80,22 @@ do {
         ChatMessage(role: .user, content: "Who won the game?")
     ]
                 
-    let result = try await openAI.sendChat(with: chat)
+    let result = try await client.sendChat(with: chat)
     // use result
 } catch {
     // ...
 }
 ```
 
-The main input is the `chat` parameter. `chat` must be an array of `ChatMessage` objects, where each object has a `role` (either "system", "user", or "assistant") and content (the content of the message). Conversations are typically formatted with a system message first, which helps set the behavior of the assistant, and followed by alternating user and assistant messages.
+Each `ChatMessage` object in `chat` has a `role` (either "system", "user", or "assistant") and `content` (the content of the message). Conversations are typically formatted with a system message first (helps set the behavior of the assistant) and followed by alternating user and assistant messages.
 
-The `sendChat` method supports all API parameters, except streaming message content before it is completed:
+####All API parameters are supported, except streaming message content before it is completed:
 
 ```swift
 do {
     let chat: [ChatMessage] = [...]
 
-    let result = try await openAI.sendChat(
+    let result = try await client.sendChat(
         with: chat,
         model: .chat(.chatgpt),         // optional `OpenAIModelType`
         user: nil,                      // optional `String?`
@@ -113,12 +114,12 @@ do {
 }
 ```
 
-### [Image Generation - DALL·E](https://platform.openai.com/docs/api-reference/images/create) 🌄
+### [Image Generation - DALL·E](https://platform.openai.com/docs/api-reference/images/create) 🖼️
 
-The image generations endpoint allows you to create an original image given a text prompt. Provide more deatil in the prompt for better results.
+Use `client.sendImages` to generate an original image given a text prompt. Provide more detail in the prompt for better results.
 
 ```swift
-openAI.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, size: .size1024) { result in // Result<OpenAIModel, OpenAIError>
+client.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, size: .size1024) { result in // Result<OpenAIModel, OpenAIError>
     switch result {
     case .success(let success):
         print(success.data.first?.url ?? "")
@@ -128,7 +129,7 @@ openAI.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, siz
 }
 ```
 
-### [Edits](https://platform.openai.com/docs/api-reference/edits) 👨🏻‍🔧
+### [Edits](https://platform.openai.com/docs/api-reference/edits) ✍️
 
 The edits endpoint can be used to edit text based on a prompt and an instruction for how to modify it.
 
