@@ -10,7 +10,7 @@ public enum OpenAIError: Error {
     case chatError(error: ChatError.Payload)
 }
 
-public class OpenAISwift {
+public class OpenAI {
     fileprivate(set) var token: String?
     fileprivate let config: Config
     
@@ -32,7 +32,7 @@ public class OpenAISwift {
     }
 }
 
-extension OpenAISwift {
+extension OpenAI {
     /// Send Completion to the OpenAI API
     /// - Parameters:
     ///   - prompt: The Text Prompt
@@ -237,7 +237,7 @@ extension OpenAISwift {
     }
 }
 
-extension OpenAISwift {
+extension OpenAI {
     /// Send Completion to the OpenAI API
     /// - Parameters:
     ///   - prompt: The Text Prompt
