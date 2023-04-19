@@ -24,7 +24,7 @@ extension Endpoint {
             case .images:
                 return "/v1/images/generations"
             case .embeddings:
-                return "/v1/embeddings
+                return "/v1/embeddings"
         }
     }
     
