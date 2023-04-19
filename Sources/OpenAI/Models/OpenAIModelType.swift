@@ -123,12 +123,11 @@ public enum OpenAIModelType {
         /// > Model Name: gpt-3.5-turbo-0301
         case chatgpt0301 = "gpt-3.5-turbo-0301"
     }
-}
-
-
-   /// Models for the embedding
-   ///
-   /// [API Docs](https://platform.openai.com/docs/api-reference/embeddings)
+    
+    
+    /// Models for the embedding
+    ///
+    /// [API Docs](https://platform.openai.com/docs/api-reference/embeddings)
     public enum Embedding: String {
         
         /// The new model, text-embedding-ada-002,
