@@ -156,7 +156,7 @@ extension OpenAISwift {
                                model: OpenAIModelType = .embedding(.ada),
                                completionHandler: @escaping (Result<OpenAIModel<EmbeddingResult>, OpenAIError>) -> Void) {
         let endpoint = Endpoint.embeddings
-        let body = EmbeddingsInput(input: input,
+        let body = Embeddings(input: input,
                                    model: model.modelName)
 
         let request = prepareRequest(endpoint, body: body)
