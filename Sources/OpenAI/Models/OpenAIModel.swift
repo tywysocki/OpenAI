@@ -40,3 +40,7 @@ public struct UsageResult: Codable {
 public struct UrlResult: Payload {
     public let url: String
 }
+
+public struct EmbeddingResult: Payload {
+    public let embedding: [Double]
+}
