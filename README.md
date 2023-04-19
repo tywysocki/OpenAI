@@ -27,7 +27,7 @@ let client = OpenAI(authToken:"API_KEY")
 With this library, you can take advantage of Swift concurrency. The code snippets provided below demonstrate both async/await and completion handler implementations.
 
 
-### [Text Completion](https://platform.openai.com/docs/api-reference/completions) 💬
+### [Text Completion](https://platform.openai.com/docs/api-reference/completions)
 
 Use `client.sendCompletion` to generate a text completion that aims to correspond with the given context or pattern in the prompt.
 
@@ -43,7 +43,7 @@ client.sendCompletion(with: "How are you doing today") { result in // Result<Ope
     }
 }
 ```
-To implement the completion handler, you need to provide a string parameter (the prompt) and a closure that will be called with a `Result` object. If the API call is successful, an `OpenAIModel` object will be returned. If the API call fails, an `OpenAIError` object will be returned.
+To implement the completion handler, you need to provide a string parameter (the prompt) and a closure that will be called with a `Result` object. If the API call is successful, an `OpenAIModel` object will be returned.
 
 #### async/await implementation:
 
@@ -87,9 +87,9 @@ do {
 }
 ```
 
-Each `ChatMessage` object in `chat` has a `role` (either "system", "user", or "assistant") and `content` (the content of the message). Conversations are typically formatted with a system message first (helps set the behavior of the assistant) and followed by alternating user and assistant messages.
+Each `ChatMessage` object in the `chat` array has a `role` (either "system", "user", or "assistant") and `content` (the content of the message). Conversations are typically formatted with a system message first (helps set the behavior of the assistant) and followed by alternating user and assistant messages.
 
-#### All API parameters are supported, except streaming message content before it is completed:
+All API parameters are supported, except streaming message content before it is completed:
 
 ```swift
 do {
@@ -114,7 +114,7 @@ do {
 }
 ```
 
-### [Image Generation - DALL·E](https://platform.openai.com/docs/api-reference/images/create) 🖼️
+### [Image Generation - DALL·E](https://platform.openai.com/docs/api-reference/images/create)
 
 Use `client.sendImages` to generate an original image given a text prompt. Provide more detail in the prompt for better results.
 
@@ -129,7 +129,7 @@ client.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, siz
 }
 ```
 
-### [Edits](https://platform.openai.com/docs/api-reference/edits) ✍️
+### [Edits](https://platform.openai.com/docs/api-reference/edits)
 
 Use `client.sendEdits` to edit text based on a prompt and an instruction for how to modify it.
 
@@ -146,9 +146,24 @@ do {
 }
 ```
 
+### [Embeddings](https://platform.openai.com/docs/guides/embeddings)
+
+Send a text string to the embeddings API endpoint with `client.sendEmbeddings` to get a vector representation of the text string that can be easily consumed by machine learning models and algorithms. Refer to the API docs for [use cases](https://platform.openai.com/docs/guides/embeddings/use-cases) and additional information.
+
+```swift
+do {
+    let result = try await client.sendEmbeddings(
+        with: "The service was great and the clerk..."
+    )
+    // use result
+} catch {
+    // ...
+}
+```
+
 ### [Moderation](https://platform.openai.com/docs/api-reference/moderations) 👮‍♂️
 
-Use `client.sendModeration` to check whether content complies with OpenAI's usage policies.
+The moderation endpoint is a tool you can use to check whether content complies with OpenAI's usage policies. To obtain a classification for a piece of text, make a request to the moderation endpoint with `client.sendModeration`.
 
 ```swift
 do {
