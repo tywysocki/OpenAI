@@ -1,10 +1,12 @@
-# Swift Client Library - OpenAI API
+# OpenAI API - Swift Client Library
 
-A Swift client library designed to help you interact with the OpenAI HTTP APIs. More information on the API can be found here: https://beta.openai.com/docs
+A Swift-based tool that will allow you to interact with the OpenAI HTTP APIs. For additional information on the API visit:
+
+https://beta.openai.com/docs
 
 ## Installation 💻
 
-To integrate the library, Swift Package Manager is your tool of choice. Add the following dependency to your Package.swift file or add it directly within Xcode.
+To integrate the library, Swift Package Manager is your tool of choice. Add the following dependency to the Package.swift file or add it directly within Xcode.
 
 `
 .Package(url: "https://github.com/tywysocki/OpenAI.git", from: "1.0.0")
