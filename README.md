@@ -62,7 +62,7 @@ do {
 
 To explore a list of supported models, refer to [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift). For detailed information about these models, refer to the [OpenAI API Docs]().
 
-### [Chat API](https://platform.openai.com/docs/api-reference/chat)
+### [ChatGPT](https://platform.openai.com/docs/api-reference/chat)
 
 Access ChatGPT (aka GPT-3.5) and GPT-4 (beta) using the `client.sendChat` method. The chat models require a series of messages as input, and produce a model-generated message as output. Each element in the `chat` array is a `ChatMessage` object, containing a `role` (either "system", "user", or "assistant") and `content` (the message content). Typically, conversations begin with a system message (which establishes the behavior of the assistant) followed by alternating user and assistant messages.
 
