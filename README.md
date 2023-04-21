@@ -27,9 +27,9 @@ let client = OpenAI(authToken:"API_KEY")
 
 With this library, you can take advantage of Swift concurrency. The code snippets provided below demonstrate both async/await and completion handler implementations.
 
-### [Completions](https://platform.openai.com/docs/api-reference/completions)
+### [Completions Endpoint](https://platform.openai.com/docs/api-reference/completions)
 
-Use `client.sendCompletion` to generate a text completion that aims to correspond with the given context or pattern in the prompt.
+Use the `client.sendCompletion` method to send a request to the completions endpoint of the API. All you need to do is provide the desired text prompt as input, and the model will generate a text completion that is intended to match the context or pattern you provided. Keep in mind that the model's success generally depends on the complexity of the task and [quality of your prompt](https://platform.openai.com/docs/guides/completion/prompt-design).
 
 #### Completion handler:
 
@@ -62,11 +62,9 @@ do {
 
 To explore a list of supported models, refer to [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift). For detailed information about these models, refer to the [OpenAI API Docs]().
 
-### [Chat](https://platform.openai.com/docs/api-reference/chat)
+### [Chat API](https://platform.openai.com/docs/api-reference/chat)
 
-To access ChatGPT (aka GPT-3.5) and the beta version of GPT-4 for generating responses in chat conversations, make a request with `client.sendChat`.
-
-The chat models require a series of messages as input, and produce a model-generated message as output. Each element in the `chat` array is a `ChatMessage` object, containing a `role` (either "system", "user", or "assistant") and content (the message content). Typically, conversations begin with a system message (which establishes the behavior of the assistant) followed by alternating user and assistant messages.
+Access ChatGPT (aka GPT-3.5) and GPT-4 (beta) using the `client.sendChat` method. The chat models require a series of messages as input, and produce a model-generated message as output. Each element in the `chat` array is a `ChatMessage` object, containing a `role` (either "system", "user", or "assistant") and `content` (the message content). Typically, conversations begin with a system message (which establishes the behavior of the assistant) followed by alternating user and assistant messages.
 
 #### Example API call:
 
@@ -126,7 +124,7 @@ client.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, siz
 }
 ```
 
-### [Edits](https://platform.openai.com/docs/api-reference/edits)
+### [Edits Endpoint](https://platform.openai.com/docs/api-reference/edits)
 
 To edit text based on a prompt and a modification instruction, use `client.sendEdits`. The method takes a prompt and a modification instruction as input and returns an edited version of the prompt as output.
 
@@ -143,7 +141,7 @@ do {
 }
 ```
 
-### [Embeddings](https://platform.openai.com/docs/guides/embeddings)
+### [Embeddings Endpoint](https://platform.openai.com/docs/guides/embeddings)
 
 To obtain a vector representation of a text string, make a request to the embeddings endpoint with `client.sendEmbeddings`. The method returns a vector representation of the text string that can be easily consumed by machine learning models and algorithms. For more information and use cases, refer to the [API documentation](https://platform.openai.com/docs/guides/embeddings/use-cases).
 
@@ -158,9 +156,9 @@ do {
 }
 ```
 
-### [Moderation](https://platform.openai.com/docs/api-reference/moderations)
+### [Moderation Endpoint](https://platform.openai.com/docs/api-reference/moderations)
 
-The moderation endpoint is a tool you can use to check whether content complies with OpenAI's usage policies. To obtain a classification for a piece of text, make a request to the moderation endpoint with `client.sendModeration`.
+The moderation endpoint is a tool you can use to check whether content complies with OpenAI's usage policies. To obtain a classification for a piece of text, send a request to the moderation endpoint with the `client.sendModeration` method.
 
 ```swift
 do {
