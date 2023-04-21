@@ -1,25 +1,24 @@
-# OpenAI API - Swift Client Library
+# OpenAI API Client Library (Swift)
 
-A Swift-based tool that will allow you to interact with the OpenAI HTTP APIs. For additional information on the API visit:
+A Swift-based tool used to interact with the OpenAI HTTP APIs. You can access the complete API docs here:
 
 https://beta.openai.com/docs
 
-## Installation 💻
+## Installation
 
-To integrate the library, Swift Package Manager is your tool of choice. Add the following dependency to the Package.swift file or add it directly within Xcode.
+To integrate the library, Swift Package Manager is your tool of choice. Add the following dependency to the Package.swift file.
 
 `
 .Package(url: "https://github.com/tywysocki/OpenAI.git", from: "1.0.0")
 `
 
-## Usage 👩‍💻
+## Usage
 
 Import the library:
 
 ```swift
 import OpenAI
 ```
-
 Create an API key [here](https://platform.openai.com/account/api-keys), and include it in your configuration.
 
 ```swift
@@ -28,12 +27,11 @@ let client = OpenAI(authToken:"API_KEY")
 
 With this library, you can take advantage of Swift concurrency. The code snippets provided below demonstrate both async/await and completion handler implementations.
 
-
-### [Text Completion](https://platform.openai.com/docs/api-reference/completions)
+### [Completions](https://platform.openai.com/docs/api-reference/completions)
 
 Use `client.sendCompletion` to generate a text completion that aims to correspond with the given context or pattern in the prompt.
 
-#### Completion handler implementation:
+#### Completion handler:
 
 ```swift
 client.sendCompletion(with: "How are you doing today") { result in // Result<OpenAIModel, OpenAIError>
@@ -45,9 +43,8 @@ client.sendCompletion(with: "How are you doing today") { result in // Result<Ope
     }
 }
 ```
-To implement the completion handler, you need to provide a string parameter (the prompt) and a closure that will be called with a `Result` object. If the API call is successful, an `OpenAIModel` object will be returned.
 
-#### async/await implementation:
+#### async/await:
 
 ```swift
 do {
@@ -63,13 +60,13 @@ do {
 }
 ```
 
-The `async/await` implementation waits for the completion to be generated before continuing with the code execution. After the completion is generated, it will be stored in `result`, which can then be used in the code for further processing, such as displaying the generated name to the user. If the completion generation fails, the code will catch the error and handle it appropriately in the catch block.
+To explore a list of supported models, refer to [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift). For detailed information about these models, refer to the [OpenAI API Docs]().
 
-You can specify the model to be used with the `model` parameter. For a list of supported models, see [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift). The [OpenAI API Docs](https://beta.openai.com/docs/models) has addtional information on the models.
+### [Chat](https://platform.openai.com/docs/api-reference/chat)
 
-### [Chat Completions](https://platform.openai.com/docs/api-reference/chat) 🤖
+To access ChatGPT (aka GPT-3.5) and the beta version of GPT-4 for generating responses in chat conversations, make a request with `client.sendChat`.
 
-Use `client.sendChat` to access ChatGPT (aka GPT-3.5) and GPT-4 (currently in beta) to generate responses for chat conversations. Chat models take a series of messages as input, and return a model-generated message as output.
+The chat models require a series of messages as input, and produce a model-generated message as output. Each element in the `chat` array is a `ChatMessage` object, containing a `role` (either "system", "user", or "assistant") and content (the message content). Typically, conversations begin with a system message (which establishes the behavior of the assistant) followed by alternating user and assistant messages.
 
 #### Example API call:
 
@@ -89,9 +86,7 @@ do {
 }
 ```
 
-Each `ChatMessage` object in the `chat` array has a `role` (either "system", "user", or "assistant") and `content` (the content of the message). Conversations are typically formatted with a system message first (helps set the behavior of the assistant) and followed by alternating user and assistant messages.
-
-All API parameters are supported, except streaming message content before it is completed:
+This library supports all API parameters, except for streaming message content that has not been completed yet.
 
 ```swift
 do {
@@ -116,9 +111,9 @@ do {
 }
 ```
 
-### [Image Generation - DALL·E](https://platform.openai.com/docs/api-reference/images/create)
+### [Images (DALL·E)](https://platform.openai.com/docs/api-reference/images/create)
 
-Use `client.sendImages` to generate an original image given a text prompt. Provide more detail in the prompt for better results.
+To generate an original image based on a text prompt, use the `client.sendImages` method. For better results, provide a detailed text prompt.
 
 ```swift
 client.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, size: .size1024) { result in // Result<OpenAIModel, OpenAIError>
@@ -133,7 +128,7 @@ client.sendImages(with: "Hand drawn sketch of a Porsche 911.", numImages: 1, siz
 
 ### [Edits](https://platform.openai.com/docs/api-reference/edits)
 
-Use `client.sendEdits` to edit text based on a prompt and an instruction for how to modify it.
+To edit text based on a prompt and a modification instruction, use `client.sendEdits`. The method takes a prompt and a modification instruction as input and returns an edited version of the prompt as output.
 
 ```swift
 do {
@@ -150,7 +145,7 @@ do {
 
 ### [Embeddings](https://platform.openai.com/docs/guides/embeddings)
 
-Send a text string to the embeddings API endpoint with `client.sendEmbeddings` to get a vector representation of the text string that can be easily consumed by machine learning models and algorithms. Refer to the API docs for [use cases](https://platform.openai.com/docs/guides/embeddings/use-cases) and additional information.
+To obtain a vector representation of a text string, make a request to the embeddings endpoint with `client.sendEmbeddings`. The method returns a vector representation of the text string that can be easily consumed by machine learning models and algorithms. For more information and use cases, refer to the [API documentation](https://platform.openai.com/docs/guides/embeddings/use-cases).
 
 ```swift
 do {
@@ -163,7 +158,7 @@ do {
 }
 ```
 
-### [Moderation](https://platform.openai.com/docs/api-reference/moderations) 👮‍♂️
+### [Moderation](https://platform.openai.com/docs/api-reference/moderations)
 
 The moderation endpoint is a tool you can use to check whether content complies with OpenAI's usage policies. To obtain a classification for a piece of text, make a request to the moderation endpoint with `client.sendModeration`.
 
@@ -183,7 +178,7 @@ do {
 
 The MIT License (MIT)
 
-Copyright (c) 2022 Tyler Wysocki
+Copyright (c) 2022 - 2023 Tyler Wysocki
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
