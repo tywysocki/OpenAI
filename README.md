@@ -49,7 +49,7 @@ client.sendCompletion(with: "How are you doing today") { result in // Result<Ope
 ```swift
 do {
     let result = try await client.sendCompletion(
-        with: "Got any creative names for my new dog?",
+        with: "",
         model: .gpt3(.davinci), // optional `OpenAIModelType`
         maxTokens: 16,          // optional `Int?`
         temperature: 1          // optional `Double?`
@@ -60,7 +60,7 @@ do {
 }
 ```
 
-To explore a list of supported models, refer to [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift). For detailed information about these models, refer to the [OpenAI API Docs]().
+For a list of supported models, refer to [OpenAIModelType.swift](https://github.com/tywysocki/OpenAI/blob/master/Sources/OpenAI/Models/OpenAIModelType.swift). For detailed information about these models, refer to the [OpenAI API Docs]().
 
 ### [ChatGPT](https://platform.openai.com/docs/api-reference/chat)
 
